@@ -13,3 +13,9 @@ class SelectDoctorEvent extends CaseRegistrationEvent {
 
   SelectDoctorEvent(this.doctorName);
 }
+
+class SelectRoomEvent extends CaseRegistrationEvent {
+  final String roomName;
+
+  SelectRoomEvent(this.roomName);
+}

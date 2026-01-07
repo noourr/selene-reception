@@ -8,6 +8,7 @@ class CaseRegistrationBloc
   final List<String> _insideCases = [];
 
   String _selectedDoctor = 'Dr Ahmed';
+  String _selectedRoom = 'Room 1';
 
   CaseRegistrationBloc()
       : super(
@@ -15,6 +16,7 @@ class CaseRegistrationBloc
             waitingCases: [],
             insideCases: [],
             selectedDoctor: 'Dr Ahmed',
+            selectedRoom: 'Room 1',
           ),
         ) {
     on<AddCaseEvent>((event, emit) {
@@ -27,9 +29,16 @@ class CaseRegistrationBloc
       emit(_currentState());
     });
 
+    on<SelectRoomEvent>((event, emit) {
+      _selectedRoom = event.roomName;
+      emit(_currentState());
+    });
+
     on<MoveCaseInsideEvent>((event, emit) {
       _waitingCases.remove(event.caseName);
-      _insideCases.add('${event.caseName} - $_selectedDoctor');
+      _insideCases.add(
+        '$_selectedRoom | ${event.caseName} - $_selectedDoctor',
+      );
       emit(_currentState());
     });
   }
@@ -39,6 +48,7 @@ class CaseRegistrationBloc
       waitingCases: List.from(_waitingCases),
       insideCases: List.from(_insideCases),
       selectedDoctor: _selectedDoctor,
+      selectedRoom: _selectedRoom,
     );
   }
 }
