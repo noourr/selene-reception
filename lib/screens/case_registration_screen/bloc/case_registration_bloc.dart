@@ -6,6 +6,7 @@ class CaseRegistrationBloc
     extends Bloc<CaseRegistrationEvent, CaseRegistrationState> {
   final List<String> _waitingCases = [];
   final List<String> _insideCases = [];
+  final List<String> _finishedCases = [];
 
   String _selectedDoctor = 'Dr Ahmed';
   String _selectedRoom = 'Room 1';
@@ -15,6 +16,7 @@ class CaseRegistrationBloc
           CaseViewState(
             waitingCases: [],
             insideCases: [],
+            finishedCases: [],
             selectedDoctor: 'Dr Ahmed',
             selectedRoom: 'Room 1',
           ),
@@ -41,12 +43,19 @@ class CaseRegistrationBloc
       );
       emit(_currentState());
     });
+
+    on<FinishCaseEvent>((event, emit) {
+      _insideCases.remove(event.caseName);
+      _finishedCases.add(event.caseName);
+      emit(_currentState());
+    });
   }
 
   CaseViewState _currentState() {
     return CaseViewState(
       waitingCases: List.from(_waitingCases),
       insideCases: List.from(_insideCases),
+      finishedCases: List.from(_finishedCases),
       selectedDoctor: _selectedDoctor,
       selectedRoom: _selectedRoom,
     );

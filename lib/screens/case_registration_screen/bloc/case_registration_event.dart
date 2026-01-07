@@ -8,6 +8,12 @@ class MoveCaseInsideEvent extends CaseRegistrationEvent {
   MoveCaseInsideEvent(this.caseName);
 }
 
+class FinishCaseEvent extends CaseRegistrationEvent {
+  final String caseName;
+
+  FinishCaseEvent(this.caseName);
+}
+
 class SelectDoctorEvent extends CaseRegistrationEvent {
   final String doctorName;
 

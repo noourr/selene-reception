@@ -141,6 +141,44 @@ class CaseRegistrationPage extends StatelessWidget {
                               return ListTile(
                                 leading: const Icon(Icons.meeting_room),
                                 title: Text(state.insideCases[index]),
+                                trailing: IconButton(
+                                  icon: const Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                  ),
+                                  onPressed: () {
+                                    context.read<CaseRegistrationBloc>().add(
+                                      FinishCaseEvent(state.insideCases[index]),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const VerticalDivider(),
+
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Finished',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: state.finishedCases.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                leading: const Icon(Icons.done_all),
+                                title: Text(state.finishedCases[index]),
                               );
                             },
                           ),
