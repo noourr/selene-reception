@@ -17,10 +17,10 @@ class CaseRegistrationPage extends StatelessWidget {
         ),
         body: BlocBuilder<CaseRegistrationBloc, CaseRegistrationState>(
           builder: (context, state) {
-            if (state is CaseState) {
+            if (state is CaseViewState) {
               return Row(
                 children: [
-                  // Waiting List
+                  // ===== Waiting =====
                   Expanded(
                     child: Column(
                       children: [
@@ -28,16 +28,49 @@ class CaseRegistrationPage extends StatelessWidget {
                         const Text(
                           'Waiting',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+
+                        // Doctor selector
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButton<String>(
+                            value: state.selectedDoctor,
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'Dr Ahmed',
+                                child: Text('Dr Ahmed'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Dr Sara',
+                                child: Text('Dr Sara'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Dr Omar',
+                                child: Text('Dr Omar'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              if (value != null) {
+                                context
+                                    .read<CaseRegistrationBloc>()
+                                    .add(SelectDoctorEvent(value));
+                              }
+                            },
+                          ),
+                        ),
+
                         ElevatedButton(
                           onPressed: () {
                             context
                                 .read<CaseRegistrationBloc>()
-                                .add(RegisterCasePressed());
+                                .add(AddCaseEvent());
                           },
                           child: const Text('Register Case'),
                         ),
+
                         Expanded(
                           child: ListView.builder(
                             itemCount: state.waitingCases.length,
@@ -52,7 +85,7 @@ class CaseRegistrationPage extends StatelessWidget {
                                     context
                                         .read<CaseRegistrationBloc>()
                                         .add(
-                                          EnterSessionPressed(caseName),
+                                          MoveCaseInsideEvent(caseName),
                                         );
                                   },
                                 ),
@@ -66,7 +99,7 @@ class CaseRegistrationPage extends StatelessWidget {
 
                   const VerticalDivider(),
 
-                  // Inside Session
+                  // ===== Inside =====
                   Expanded(
                     child: Column(
                       children: [
@@ -74,7 +107,9 @@ class CaseRegistrationPage extends StatelessWidget {
                         const Text(
                           'Inside',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Expanded(
                           child: ListView.builder(
@@ -83,7 +118,8 @@ class CaseRegistrationPage extends StatelessWidget {
                               return ListTile(
                                 leading:
                                     const Icon(Icons.meeting_room),
-                                title: Text(state.insideCases[index]),
+                                title:
+                                    Text(state.insideCases[index]),
                               );
                             },
                           ),

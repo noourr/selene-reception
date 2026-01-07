@@ -1,11 +1,13 @@
 abstract class CaseRegistrationState {}
 
-class CaseState extends CaseRegistrationState {
+class CaseViewState extends CaseRegistrationState {
   final List<String> waitingCases;
   final List<String> insideCases;
+  final String selectedDoctor;
 
-  CaseState({
+  CaseViewState({
     required this.waitingCases,
     required this.insideCases,
+    required this.selectedDoctor,
   });
 }

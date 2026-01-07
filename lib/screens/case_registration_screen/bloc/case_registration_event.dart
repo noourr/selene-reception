@@ -1,9 +1,15 @@
 abstract class CaseRegistrationEvent {}
 
-class RegisterCasePressed extends CaseRegistrationEvent {}
+class AddCaseEvent extends CaseRegistrationEvent {}
 
-class EnterSessionPressed extends CaseRegistrationEvent {
+class MoveCaseInsideEvent extends CaseRegistrationEvent {
   final String caseName;
 
-  EnterSessionPressed(this.caseName);
+  MoveCaseInsideEvent(this.caseName);
+}
+
+class SelectDoctorEvent extends CaseRegistrationEvent {
+  final String doctorName;
+
+  SelectDoctorEvent(this.doctorName);
 }
